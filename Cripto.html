@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cifra de César</title>
+</head>
+<body>
+    <h1>Cifra de César</h1>
+
+    <label for="mensagemAberta">Mensagem Aberta:</label>
+    <input type="text" id="mensagemAberta" placeholder="Insira a mensagem a ser criptografada">
+    <br>
+
+    <label for="mensagemCriptografada">Mensagem Criptografada:</label>
+    <input type="text" id="mensagemCriptografada" placeholder="A mensagem criptografada aparecerá aqui">
+    <br>
+
+    <button id="criptografar">Criptografar</button>
+    <button id="descriptografar">Descriptografar</button>
+
+    <script>
+       
+        function criptografarMensagem(mensagem, deslocamento) {
+            let mensagemCriptografada = "";
+            for (let i = 0; i < mensagem.length; i++) {
+                let char = mensagem[i];
+                if (char.match(/[a-z]/i)) {
+                    let codigo = mensagem.charCodeAt(i);
+                    if (char === char.toLowerCase()) {
+                        char = String.fromCharCode(((codigo - 97 + deslocamento) % 26) + 97);
+                    } else {
+                        char = String.fromCharCode(((codigo - 65 + deslocamento) % 26) + 65);
+                    }
+                }
+                mensagemCriptografada += char;
+            }
+            return mensagemCriptografada;
+        }
+
+        
+        function descriptografarMensagem(mensagemCriptografada, deslocamento) {
+            return criptografarMensagem(mensagemCriptografada, 26 - deslocamento);
+        }
+
+        document.getElementById("criptografar").addEventListener("click", function () {
+            const mensagemAberta = document.getElementById("mensagemAberta").value;
+            const deslocamento = 3; 
+            const mensagemCriptografada = criptografarMensagem(mensagemAberta, deslocamento);
+            document.getElementById("mensagemCriptografada").value = mensagemCriptografada;
+        });
+
+        document.getElementById("descriptografar").addEventListener("click", function () {
+            const mensagemCriptografada = document.getElementById("mensagemCriptografada").value;
+            const deslocamento = 3; 
+            const mensagemAberta = descriptografarMensagem(mensagemCriptografada, deslocamento);
+            document.getElementById("mensagemAberta").value = mensagemAberta;
+        });
+    </script>
+</body>
+</html>
